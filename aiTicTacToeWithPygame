@@ -1,0 +1,569 @@
+				# AI Tic Tac Toe vs. Bridget
+
+
+import pygame, sys
+from pygame.locals import *
+pygame.init()
+
+import random
+
+
+#TO DO: migrate bridgetChooseAMove to neurons so that it happens naturally
+# just have bridget's on neurons represent a move
+# and allow them when it is her turn
+# and have the random choice on as well (need to have a self activating loop for that to occur?)
+# eventually replace "look at the board" with pixel vision
+# eventually have modules of 100 neurons each that max out
+
+#add GOOD
+
+#add avoiding a BAD thing is GOOD (if an anticipated bad thing is avoided, then good.  Add a Bad self.Bad variable
+
+#NEURONS:
+# X TOP ROW = 0,1,2
+# X MID ROW = 3,4,5
+# X BOTTOM ROW = 6,7,8
+# x is 9
+# o is 10
+# win is 11
+# diagonal 12
+# horizontal 13
+# vertical 14
+
+#NEURONS:
+# 0 always on		1	
+# 9 spaces		9	
+# X or O		2	
+# Win = Good		1	
+# diagonal		1	
+# vertical		1	
+# horizontal		1	
+#
+#
+#
+#############################################################
+import ait
+#testing out importing a method
+x = ait.testmethod()
+print str(x)
+
+
+def activateO():
+	
+	oPlayedSpaceList
+	#look for active neurons and if none are active then activate a random one	
+
+
+	
+	
+
+#############################################################
+
+#NOTES
+# eliminate time, so that actions before/after represent time, change so that computer can play itself
+
+
+pygame.display.set_caption("Tic Tac Toe vs. Bridget")
+
+screen = pygame.display.set_mode((600,700),0,32) #this sets up the screen
+
+pygame.font.init()
+font = pygame.font.Font(None, 36)
+points = 0
+text = font.render(str(points), 1, (0, 0, 0))#the score text
+
+#HOW TO DRAW A LINE: 
+#pygame.draw.line(Surface, color, start_pos, end_pos, width=1)
+#pygame.draw.line(screen,(176,23,31),True,((500,250),(600,250)),5)
+
+#pygame.draw.line(Surface, color, start_pos, end_pos, width=1)
+
+#MULTIPLE LINES
+#pygame.draw.lines(Surface, color, closed, pointlist, width=1)
+#pygame.draw.lines(screen,color,True,points,5)
+
+#HOW TO DRAW A CIRCLE
+#From pacman Game:
+#pygame.draw.circle(screen,color,(array[dotXvalue]+15,dotY[dotYvalue]+14),3)
+#pygame.draw.circle(Surface, color, pos, radius, width=0): return Rect
+#pygame.draw.circle(screen, (230,130,0), (300,176), 60, 0)
+
+global topleft 
+global topcenter
+global topright 
+global middleleft 
+global middlecenter 
+global middleright
+global bottomleft 
+global bottomcenter 
+global bottomright 
+
+global otopleft
+global otopcenter 
+global otopright 
+global omiddleleft
+global omiddlecenter
+global omiddleright 
+global obottomleft 
+global obottomcenter
+global obottomright
+
+topleft = 0
+topcenter = 0
+topright = 0
+middleleft = 0
+middlecenter = 0
+middleright= 0
+bottomleft = 0
+bottomcenter = 0
+bottomright = 0
+
+otopleft = 0
+otopcenter = 0
+otopright = 0
+omiddleleft = 0
+omiddlecenter = 0
+omiddleright = 0
+obottomleft = 0
+obottomcenter = 0
+obottomright = 0
+
+
+global xwin
+global owin
+global wonTriggered
+xwin = 0
+owin = 0
+
+wonTriggered = 0
+
+#GRIDLIST REPRESENTS BOARD SPACES
+# 0  || 1 || 2
+#=================
+# 3  || 4 || 5
+#=================
+# 6  || 7 || 8
+
+
+
+def winmethod():
+	gridlist = [topleft,topcenter,topright,middleleft,middlecenter,middleright,bottomleft,bottomcenter,bottomright]
+	global xwin 
+	global owin
+	global wonTriggered
+	if gridlist[0] == "X" and gridlist [1] == "X" and gridlist[2] == "X": #x's across
+		xwin = 1
+		ait.activateANewNeuronMethod(13)
+	elif gridlist[3] == "X" and gridlist [4] == "X" and gridlist[5] == "X":
+		xwin = 1
+		ait.activateANewNeuronMethod(13)
+	elif gridlist[6] == "X" and gridlist [7] == "X" and gridlist[8] == "X":
+		xwin = 1
+		ait.activateANewNeuronMethod(13)
+	elif gridlist[0] == "X" and gridlist [3] == "X" and gridlist[6] == "X":#x's vertical
+		xwin = 1
+		ait.activateANewNeuronMethod(14)
+	elif gridlist[1] == "X" and gridlist [4] == "X" and gridlist[7] == "X":
+		xwin = 1
+		ait.activateANewNeuronMethod(14)
+	elif gridlist[2] == "X" and gridlist [5] == "X" and gridlist[8] == "X":
+		xwin = 1
+		ait.activateANewNeuronMethod(14)
+	elif gridlist[0] == "X" and gridlist [4] == "X" and gridlist[8] == "X":#x diagonal
+		xwin = 1
+		ait.activateANewNeuronMethod(12)
+	elif gridlist[6] == "X" and gridlist [4] == "X" and gridlist[2] == "X":
+		xwin = 1
+		ait.activateANewNeuronMethod(12)
+
+	gridlist = [otopleft,otopcenter,otopright,omiddleleft,omiddlecenter,omiddleright,obottomleft,obottomcenter,obottomright]
+	if gridlist[0] == 1 and gridlist [1] == 1 and gridlist[2] == 1: #O's across
+		owin = 1
+		ait.activateANewNeuronMethod(13)
+	elif gridlist[3] == 1 and gridlist [4] == 1 and gridlist[5] == 1:
+		owin = 1
+		ait.activateANewNeuronMethod(13)
+	elif gridlist[6] == 1 and gridlist [7] == 1 and gridlist[8] == 1:
+		owin = 1
+		ait.activateANewNeuronMethod(13)
+	elif gridlist[0] == 1 and gridlist [3] == 1 and gridlist[6] == 1:#O's vertical
+		owin = 1
+		ait.activateANewNeuronMethod(14)
+	elif gridlist[1] == 1 and gridlist [4] == 1 and gridlist[7] == 1:
+		owin = 1
+		ait.activateANewNeuronMethod(14)
+	elif gridlist[2] == 1 and gridlist [5] == 1 and gridlist[8] == 1:
+		owin = 1
+		ait.activateANewNeuronMethod(14)
+	elif gridlist[0] == 1 and gridlist [4] == 1 and gridlist[8] == 1:#O diagonal
+		owin = 1
+		ait.activateANewNeuronMethod(12)
+	elif gridlist[6] == 1 and gridlist [4] == 1 and gridlist[2] == 1:
+		owin = 1
+		ait.activateANewNeuronMethod(12)
+	
+	
+
+	if xwin == 1 and wonTriggered == 0:
+		print "X has won!!!"
+		#print ait.currentlyActiveNeurons
+		wonTriggered = 1
+		#SEND DATA TO BRIDGET 
+		ait.activateANewNeuronMethod(-2) #bad
+		resetthegame()
+
+	if owin == 1 and wonTriggered == 0: 
+		print "O has won!!!"
+		ait.activateANewNeuronMethod(-1) #good
+		ait.createGoodNeuron(-1)
+		#print ait.currentlyActiveNeurons
+		resetthegame()		
+		#SEND DATA TO BRIDGET XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX DO THIS
+		#Reinforce 'Good'
+
+def resetthegame():
+	global topleft 
+	global topcenter
+	global topright 
+	global middleleft 
+	global middlecenter 
+	global middleright
+	global bottomleft 
+	global bottomcenter 
+	global bottomright 
+
+	global otopleft
+	global otopcenter 
+	global otopright 
+	global omiddleleft
+	global omiddlecenter
+	global omiddleright 
+	global obottomleft 
+	global obottomcenter
+	global obottomright
+
+	global turn
+	gridlist = []
+
+	turn = "player1"
+
+	topleft = 0
+	topcenter = 0
+	topright = 0
+	middleleft = 0
+	middlecenter = 0
+	middleright= 0
+	bottomleft = 0
+	bottomcenter = 0
+	bottomright = 0
+
+	otopleft = 0
+	otopcenter = 0
+	otopright = 0
+	omiddleleft = 0
+	omiddlecenter = 0
+	omiddleright = 0
+	obottomleft = 0
+	obottomcenter = 0
+	obottomright = 0
+
+	global xwin
+	global owin
+	global wonTriggered
+	xwin = 0
+	owin = 0
+
+	wonTriggered = 0
+
+	print "RESET RESET RESET"
+
+
+
+#NEURONS:
+# X TOP ROW = 0,1,2
+# X MID ROW = 3,4,5
+# X BOTTOM ROW = 6,7,8
+# x is 9
+# o is 10
+
+def lookAtTheBoard():
+	if otopleft == 1:
+		ait.activateANewNeuronMethod(0)	
+		ait.activateANewNeuronMethod(10)	
+	if otopcenter == 1:
+		ait.activateANewNeuronMethod(1)	
+		ait.activateANewNeuronMethod(10)
+	if otopright == 1:
+		ait.activateANewNeuronMethod(2)	
+		ait.activateANewNeuronMethod(10)
+	if omiddleleft == 1:
+		ait.activateANewNeuronMethod(3)	
+		ait.activateANewNeuronMethod(10)
+	if omiddlecenter == 1:
+		ait.activateANewNeuronMethod(4)	
+		ait.activateANewNeuronMethod(10)
+	if omiddleright == 1:
+		ait.activateANewNeuronMethod(5)	
+		ait.activateANewNeuronMethod(10)
+	if obottomleft == 1:
+		ait.activateANewNeuronMethod(6)	
+		ait.activateANewNeuronMethod(10)
+	if obottomcenter == 1:
+		ait.activateANewNeuronMethod(7)	
+		ait.activateANewNeuronMethod(10)
+	if obottomright == 1:
+		ait.activateANewNeuronMethod(8)	
+		ait.activateANewNeuronMethod(10)
+
+
+	if topleft == "X":
+		ait.activateANewNeuronMethod(0)	
+		ait.activateANewNeuronMethod(9)
+	if topcenter == "X":
+		ait.activateANewNeuronMethod(1)	
+		ait.activateANewNeuronMethod(9)
+	if topright == "X":
+		ait.activateANewNeuronMethod(2)	
+		ait.activateANewNeuronMethod(9)
+	if middleleft == "X":
+		ait.activateANewNeuronMethod(3)	
+		ait.activateANewNeuronMethod(9)
+	if middlecenter == "X":
+		ait.activateANewNeuronMethod(4)	
+		ait.activateANewNeuronMethod(9)
+	if middleright== "X":
+		ait.activateANewNeuronMethod(5)	
+		ait.activateANewNeuronMethod(9)
+	if bottomleft == "X":
+		ait.activateANewNeuronMethod(6)	
+		ait.activateANewNeuronMethod(9)
+	if bottomcenter == "X":
+		ait.activateANewNeuronMethod(7)	
+		ait.activateANewNeuronMethod(9)
+	if bottomright == "X":
+		ait.activateANewNeuronMethod(8)	
+		ait.activateANewNeuronMethod(9)
+
+
+def drawmethod():
+#pygame.draw.circle(Surface, color, pos, radius, width=0): return Rect		
+		if otopleft == 1:
+			pygame.draw.circle(screen, (0,191,255), (100,100), 60, 5)#topleft
+		if otopcenter == 1:
+			pygame.draw.circle(screen, (0,191,255), (300,100), 60, 5)#topcenter
+		if otopright == 1:
+			pygame.draw.circle(screen, (0,191,255), (500,100), 60, 5)#topright
+		if omiddleleft == 1:
+			pygame.draw.circle(screen, (0,191,255), (100,300), 60, 5)#middleleft
+		if omiddlecenter == 1:
+			pygame.draw.circle(screen, (0,191,255), (300,300), 60, 5)#middlecenter
+		if omiddleright == 1:
+			pygame.draw.circle(screen, (0,191,255), (500,300), 60, 5)#middleright
+		if obottomleft == 1:
+			pygame.draw.circle(screen, (0,191,255), (100,500), 60, 5)#bottomleft
+		if obottomcenter == 1:
+			pygame.draw.circle(screen, (0,191,255), (300,500), 60, 5)#bottomcenter
+		if obottomright == 1:
+			pygame.draw.circle(screen, (0,191,255), (500,500), 60, 5)#bottomright
+
+		#pygame.draw.circle(Surface, color, pos, radius, width=0): return Rect		
+		if topleft == "X":
+			pygame.draw.line(screen,(255,255,255),(50,50),(150,150),5)
+			pygame.draw.line(screen,(255,255,255),(50,150),(150,50),5)
+		if topcenter == "X":
+			pygame.draw.line(screen,(255,255,255),(250,50),(350,150),5)
+			pygame.draw.line(screen,(255,255,255),(250,150),(350,50),5)
+		if topright == "X":
+			pygame.draw.line(screen,(255,255,255),(450,50),(550,150),5)
+			pygame.draw.line(screen,(255,255,255),(450,150),(550,50),5)
+		if middleleft == "X":
+			pygame.draw.line(screen,(255,255,255),(50,250),(150,350),5)
+			pygame.draw.line(screen,(255,255,255),(50,350),(150,250),5)
+		if middlecenter == "X":
+			pygame.draw.line(screen,(255,255,255),(250,250),(350,350),5)
+			pygame.draw.line(screen,(255,255,255),(250,350),(350,250),5)
+		if middleright == "X":
+			pygame.draw.line(screen,(255,255,255),(450,250),(550,350),5)
+			pygame.draw.line(screen,(255,255,255),(450,350),(550,250),5)
+		if bottomleft == "X":
+			pygame.draw.line(screen,(255,255,255),(50,450),(150,550),5)
+			pygame.draw.line(screen,(255,255,255),(50,550),(150,450),5)
+		if bottomcenter == "X":
+			pygame.draw.line(screen,(255,255,255),(250,450),(350,550),5)
+			pygame.draw.line(screen,(255,255,255),(250,550),(350,450),5)
+		if bottomright == "X":
+			pygame.draw.line(screen,(255,255,255),(450,450),(550,550),5)
+			pygame.draw.line(screen,(255,255,255),(450,550),(550,450),5)
+
+oPlayedSpaceList = []
+def bridgetChooseAMove():
+	
+	global oPlayedSpaceList
+	#check neurons first for firing
+	#if none, then randomly pick one
+	placeholder = 0
+	maxneuron = -1
+	for i in ait.neuronList: 
+		if i.neuronActive == 0 and i not in oPlayedSpaceList:
+			largest = i.neuronCurrentActivationLevel
+			if largest > placeholder: #find O neuron with the largest activation level
+				maxneuron = i		
+			else: #none were even partially activated
+				pass
+
+	
+	
+	if maxneuron > -1:
+		
+		Omove = maxneuron #delete this? --> ait.neuronList[maxneuron]	
+	else:
+		print "hello 2.2"
+		Omove = random.randint(0,9)
+		while(ait.neuronList[Omove].neuronActive == 1 and Omove in oPlayedSpaceList): #don't pick one that is already active
+			Omove = random.randint(0,9) #pick a random move if nothing is partially activated
+			print "hello 3.3"
+			print "neuron: " + str(Omove) + ": " + str(ait.neuronList[Omove].neuronActive)	
+			ait.mainBrainMethod()
+
+	if Omove not in oPlayedSpaceList:	
+		oPlayedSpaceList.append(i)
+	
+	print Omove
+	return Omove
+
+
+turn = "player1"
+while True: 
+	
+
+	screen.fill((0,0,0)) #this makes the entire screen black.  
+	drawmethod()
+###########################################################################
+	ait.mainBrainMethod() # turn on the brain
+
+	winmethod()
+
+	lookAtTheBoard()
+	
+	
+	if turn == "bridget":
+		turn = "player1"
+		#CALL BRIDGET THINKING HERE 		
+		bridgetsChoice = bridgetChooseAMove()
+		if bridgetsChoice == 0:
+			otopleft = 1
+		elif bridgetsChoice == 1:
+			otopcenter = 1
+		elif bridgetsChoice == 2:
+			otopright = 1
+		elif bridgetsChoice == 3:
+			omiddleleft = 1
+		elif bridgetsChoice == 4:
+			omiddlecenter = 1
+		elif bridgetsChoice == 5:
+			omiddleright = 1
+		elif bridgetsChoice == 6:
+			obottomleft = 1
+		elif bridgetsChoice == 7:
+			obottomcenter = 1
+		elif bridgetsChoice == 8:
+			obottomright = 1
+		
+			
+
+		
+
+
+	#screen.fill((0,0,0))
+	if turn == "player1":
+		for event in pygame.event.get():
+			if event.type == QUIT:
+				pygame.quit()
+				sys.exit()
+			if event.type == MOUSEBUTTONDOWN: #if the mouse button is pressed down
+				x,y = pygame.mouse.get_pos() #this gets the coordinates of the mouse arrow
+				#DRAWING X's
+				if x < 200 and y < 200:
+					topleft = "X"
+					pygame.draw.line(screen,(255,255,255),(50,50),(150,150),5)
+					pygame.draw.line(screen,(255,255,255),(50,150),(150,50),5)
+					ait.activateANewNeuronMethod(0)
+					ait.activateANewNeuronMethod(9)
+				elif x > 200 and x < 400 and y < 200:
+					topcenter = "X"
+					pygame.draw.line(screen,(255,255,255),(250,50),(350,150),5)
+					pygame.draw.line(screen,(255,255,255),(250,150),(350,50),5)
+					ait.activateANewNeuronMethod(1)
+					ait.activateANewNeuronMethod(9)
+				elif x > 400 and y < 200:
+					topright = "X"
+					pygame.draw.line(screen,(255,255,255),(450,50),(550,150),5)
+					pygame.draw.line(screen,(255,255,255),(450,150),(550,50),5)
+					ait.activateANewNeuronMethod(2)
+					ait.activateANewNeuronMethod(9)
+				elif x < 200 and y < 400:
+					middleleft = "X"
+					pygame.draw.line(screen,(255,255,255),(50,250),(150,350),5)
+					pygame.draw.line(screen,(255,255,255),(50,350),(150,250),5)
+					ait.activateANewNeuronMethod(3)
+					ait.activateANewNeuronMethod(9)
+				elif x > 200 and x < 400 and y < 400:
+					middlecenter = "X"
+					pygame.draw.line(screen,(255,255,255),(250,250),(350,350),5)
+					pygame.draw.line(screen,(255,255,255),(250,350),(350,250),5)
+					ait.activateANewNeuronMethod(4)
+					ait.activateANewNeuronMethod(9)
+				elif x > 400 and y < 400:
+					middleright = "X"
+					pygame.draw.line(screen,(255,255,255),(450,250),(550,350),5)
+					pygame.draw.line(screen,(255,255,255),(450,350),(550,250),5)
+					ait.activateANewNeuronMethod(5)
+					ait.activateANewNeuronMethod(9)
+
+				elif x < 200 and y < 600:
+					bottomleft = "X"
+					pygame.draw.line(screen,(255,255,255),(50,450),(150,550),5)
+					pygame.draw.line(screen,(255,255,255),(50,550),(150,450),5)
+					ait.activateANewNeuronMethod(6)
+					ait.activateANewNeuronMethod(9)
+				elif x > 200 and x < 400 and y < 600:
+					bottomcenter = "X"
+					pygame.draw.line(screen,(255,255,255),(250,450),(350,550),5)
+					pygame.draw.line(screen,(255,255,255),(250,550),(350,450),5)
+					ait.activateANewNeuronMethod(7)
+					ait.activateANewNeuronMethod(9)	
+				elif x > 400 and y < 600:
+					bottomright = "X"
+					pygame.draw.line(screen,(255,255,255),(450,450),(550,550),5)
+					pygame.draw.line(screen,(255,255,255),(450,550),(550,450),5)
+					ait.activateANewNeuronMethod(8)
+					ait.activateANewNeuronMethod(9)
+				turn = "bridget" #it is now the computer's turn
+
+				if y > 610:
+					resetthegame()
+					print topleft
+
+################################################################################
+	#TIC TAC TOE GRID LINES
+	#pygame.draw.line(Surface, color, start_pos, end_pos, width=1)
+	pygame.draw.line(screen,(176,23,31),(200,0),(200,600),5)#vertical lines
+	pygame.draw.line(screen,(176,23,31),(400,0),(400,600),5)
+
+	pygame.draw.line(screen,(176,23,31),(0,200),(600,200),5)
+	pygame.draw.line(screen,(176,23,31),(0,400),(600,400),5)
+
+	#bottom line
+	pygame.draw.line(screen,(176,23,31),(0,600),(600,600),5)
+
+#################################################################################
+	#circle(Surface, color, pos, radius, width=0)
+	#draw 1000 neurons for debugging (the tic tac is 600 X 600 pixels
+
+	pygame.display.update()
+
+
+
+
+
+
